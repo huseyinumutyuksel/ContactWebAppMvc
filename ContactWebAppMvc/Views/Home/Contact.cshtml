@@ -1,0 +1,71 @@
+﻿@model ContactWebAppMvc.Models.ContactMessage
+@{
+    ViewData["Title"] = "İletişim";
+}
+
+<h1>@ViewData["Title"]</h1>
+<hr />
+<div class="row">
+    <div class="col-md-6">
+        <form asp-action="Contact" method="post">
+            @* CSRF token'ı ekler *@
+            @Html.AntiForgeryToken()
+
+            @* Model seviyesindeki hataları göstermek için (örn: veritabanı hatası) *@
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="mb-3">
+                <label asp-for="FullName" class="form-label"></label>
+                <input asp-for="FullName" class="form-control" />
+                <span asp-validation-for="FullName" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="PhoneNumber" class="form-label"></label>
+                <input asp-for="PhoneNumber" class="form-control" />
+                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="Email" class="form-label"></label>
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="DepartmentId" class="form-label"></label>
+                @* Controller'dan gelen ViewBag.Departments'ı kullanarak dropdown oluşturuyoruz *@
+                <select asp-for="DepartmentId" class="form-select" asp-items="ViewBag.Departments">
+                    <option value="">-- Departman Seçiniz --</option>
+                </select>
+                <span asp-validation-for="DepartmentId" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="Message" class="form-label"></label>
+                <textarea asp-for="Message" class="form-control" rows="5"></textarea>
+                <span asp-validation-for="Message" class="text-danger"></span>
+            </div>
+            @* SentAt alanı kullanıcıdan alınmayacak, gizli tutuyoruz veya hiç render etmiyoruz *@
+            @* <input type="hidden" asp-for="SentAt" /> *@
+
+            <div class="mb-3">
+                <button type="submit" class="btn btn-primary">Gönder</button>
+            </div>
+        </form>
+    </div>
+    <div class="col-md-6">
+        @* Buraya adres, harita gibi ek iletişim bilgileri eklenebilir *@
+        <h2>Diğer İletişim Bilgileri</h2>
+        <p>
+            <strong>Adres:</strong> Örnek Mah. Teknoloji Cad. No:123, Merkez/Şehir<br />
+            <strong>Telefon:</strong> +90 555 123 45 67<br />
+            <strong>E-posta:</strong> bilgi@sirketiniz.com
+        </p>
+        <hr />
+        <p>Mesajınız ilgili departmana iletilecektir.</p>
+    </div>
+</div>
+
+@* Scriptleri (özellikle client-side validation için) eklemeyi unutmayın *@
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

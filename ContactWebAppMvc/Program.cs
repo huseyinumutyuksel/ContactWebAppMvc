@@ -1,6 +1,19 @@
+// Program.cs (.NET 6 ve sonrasý)
+
+using Microsoft.EntityFrameworkCore; // DbContext için
+using ContactWebAppMvc.Data;     // ApplicationDbContext için
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+
+// 1. Veritabaný Baðlantýsýný Yapýlandýr
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection")
+    ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found."); // Baðlantý dizesi bulunamazsa hata fýrlat
+
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+    options.UseSqlServer(connectionString)); // SQL Server kullanacaðýmýzý belirtiyoruz
+
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
@@ -9,7 +22,6 @@ var app = builder.Build();
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 
