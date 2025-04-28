@@ -1,0 +1,73 @@
+# Build output
+bin/
+obj/
+
+# User-specific files
+*.rsuser
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Visual Studio working folder
+.vs/
+
+# Rider IDE
+.idea/
+
+# ASP.NET Scaffolding
+ScaffoldingReadMe.txt
+
+# Publish output
+wwwroot/
+
+# Configuration files
+appsettings.*.json
+
+# Node.js / npm related (if you have frontend stuff)
+node_modules/
+npm-debug.log
+
+# Log files
+*.log
+
+# Others
+*.db
+*.sqlite
+
+# OS generated files
+.DS_Store
+Thumbs.db
+ehthumbs.db
+
+# Paket yöneticileri
+packages/
+*.nupkg
+project.lock.json
+project.fragment.lock.json
+
+# Coverage outputs
+coverage/
+
+# JetBrains Rider ve Resharper temp dosyaları
+.idea/
+*.sln.iml
+
+# dotenv files (if you use environment variables)
+.env
+.env.*
+
+# Backup files
+*.bak
+*.old
+*.tmp
+*.swp
+*.swn
+*.swo
+*.sml
+
+# VS Code workspace settings
+.vscode/
+
+# Git konfigürasyon dosyası
+.gitattributes
