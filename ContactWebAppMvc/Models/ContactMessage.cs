@@ -13,7 +13,7 @@ namespace ContactWebAppMvc.Models // Proje adına göre namespace'i güncelle
         [Required(ErrorMessage = "Adı Soyadı alanı zorunludur.")]
         [StringLength(100, ErrorMessage = "Adı Soyadı en fazla 100 karakter olabilir.")]
         [Display(Name = "Adınız Soyadınız")]
-        public string FullName { get; set; }
+        public string FullName { get; set; }  //Veritabanı böyle görüyor
 
         [Required(ErrorMessage = "Telefon numarası alanı zorunludur.")]
         [Phone(ErrorMessage = "Lütfen geçerli bir telefon numarası formatı giriniz.")]

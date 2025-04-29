@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ContactWebAppMvc.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250428203119_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20250429132426_InitialNew")]
+    partial class InitialNew
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

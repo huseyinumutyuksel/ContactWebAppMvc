@@ -7,7 +7,7 @@
 <hr />
 <div class="row">
     <div class="col-md-6">
-        <form asp-action="Contact" method="post">
+        <form asp-controller="Home" asp-action="Contact" method="post">
             @* CSRF token'ı ekler *@
             @Html.AntiForgeryToken()
 
@@ -54,7 +54,7 @@
         @* Buraya adres, harita gibi ek iletişim bilgileri eklenebilir *@
         <h2>Diğer İletişim Bilgileri</h2>
         <p>
-            <strong>Adres:</strong> Örnek Mah. Teknoloji Cad. No:123, Merkez/Şehir<br />
+            <strong>Adres:</strong> Cikcilli Mahallesi Saraybeleni Cad No:7, Antalya/Alanya<br />
             <strong>Telefon:</strong> +90 555 123 45 67<br />
             <strong>E-posta:</strong> bilgi@sirketiniz.com
         </p>

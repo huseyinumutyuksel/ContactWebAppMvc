@@ -31,6 +31,12 @@ namespace ContactWebAppMvc.Controllers // Namespace'i kontrol edin
         {
             return View();
         }
+        private async Task PopulateDepartmentsDropdown(int? selectedDepartmentId = null)
+        {
+            var departments = await _context.Departments.OrderBy(d => d.Name).ToListAsync();
+            ViewBag.Departments = new SelectList(departments, "Id", "Name", selectedDepartmentId);
+        }
+
 
         // GET: /Home/Contact
         // Ýletiþim formunu göstermek için action
@@ -39,8 +45,8 @@ namespace ContactWebAppMvc.Controllers // Namespace'i kontrol edin
         {
             // Departmanlarý veritabanýndan çekip SelectList'e dönüþtürerek ViewBag'e atýyoruz
             // Bu, dropdown'ý doldurmak için kullanýlacak.
-            ViewBag.Departments = new SelectList(await _context.Departments.OrderBy(d => d.Name).ToListAsync(), "Id", "Name");
-
+      
+            await PopulateDepartmentsDropdown();
             // Boþ bir ContactMessage modeli ile View'ý döndürüyoruz
             return View(new ContactMessage());
         }
@@ -49,7 +55,7 @@ namespace ContactWebAppMvc.Controllers // Namespace'i kontrol edin
         // Formdan gönderilen verileri iþlemek için action
         [HttpPost]
         [ValidateAntiForgeryToken] // CSRF saldýrýlarýný önlemek için
-        public async Task<IActionResult> Contact(ContactMessage contactMessage)
+        public async Task<IActionResult> Contact([Bind("Id,DepartmentId,FullName,Email,PhoneNumber,Message,SentAt")] ContactMessage contactMessage)
         {
             // Model validasyonunu kontrol et (Required, StringLength vb. kurallara uyuyor mu?)
             if (ModelState.IsValid)
@@ -81,12 +87,21 @@ namespace ContactWebAppMvc.Controllers // Namespace'i kontrol edin
                     _logger.LogError(ex, "Mesaj gönderilirken beklenmedik bir hata oluþtu.");
                     ModelState.AddModelError("", "Mesajýnýz gönderilirken beklenmedik bir hata oluþtu.");
                 }
+
+                foreach (var state in ModelState)
+                {
+                    if (state.Value.ValidationState == Microsoft.AspNetCore.Mvc.ModelBinding.ModelValidationState.Invalid)
+                    {
+                        _logger.LogError($"Field {state.Key} is invalid. Errors: {string.Join(", ", state.Value.Errors.Select(e => e.ErrorMessage))}");
+                    }
+                }
+
             }
 
             // Eðer ModelState.IsValid == false ise (yani validasyon hatasý varsa)
             // VEYA try-catch içinde bir hata oluþtuysa:
             // Formu tekrar gösterirken Departman dropdown'ýný yeniden doldurmamýz GEREKÝR!
-            ViewBag.Departments = new SelectList(await _context.Departments.OrderBy(d => d.Name).ToListAsync(), "Id", "Name", contactMessage.DepartmentId); // Seçili deðeri koru
+            await PopulateDepartmentsDropdown(contactMessage.DepartmentId);
 
             // Hatalarla birlikte ayný View'ý tekrar göster
             return View(contactMessage);

@@ -11,8 +11,11 @@ var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection")
     ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found."); // Baðlantý dizesi bulunamazsa hata fýrlat
 
+
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(connectionString)); // SQL Server kullanacaðýmýzý belirtiyoruz
+    options.UseLazyLoadingProxies() // Lazy loading proxy'lerini etkinleþtirir
+           .UseSqlServer(connectionString)); // SQL Server kullanacaðýmýzý belirtiyoruz
+
 
 builder.Services.AddControllersWithViews();
 
