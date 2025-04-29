@@ -43,6 +43,7 @@ namespace ContactWebAppMvc.Models // Proje adına göre namespace'i güncelle
 
         // Navigation Property - İlişkili Departmanı temsil eder
         [ForeignKey("DepartmentId")] // Hangi özelliğin Foreign Key olduğunu belirtir
-        public virtual Department Department { get; set; } // virtual Lazy Loading için
+        public virtual Department? Department { get; set; } // virtual Lazy Loading için
+        // Eğer ? işareti kullanmazsak null referans hatası almaktayız. Bu hata yüzünden ModelState.IsValid false dönmekte.
     }
 }
