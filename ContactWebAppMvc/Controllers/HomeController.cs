@@ -88,14 +88,15 @@ namespace ContactWebAppMvc.Controllers // Namespace'i kontrol edin
                     ModelState.AddModelError("", "Mesajýnýz gönderilirken beklenmedik bir hata oluþtu.");
                 }
 
-                foreach (var state in ModelState)
-                {
-                    if (state.Value.ValidationState == Microsoft.AspNetCore.Mvc.ModelBinding.ModelValidationState.Invalid)
-                    {
-                        _logger.LogError($"Field {state.Key} is invalid. Errors: {string.Join(", ", state.Value.Errors.Select(e => e.ErrorMessage))}");
-                    }
-                }
+            }
 
+
+            foreach (var state in ModelState)
+            {
+                if (state.Value.ValidationState == Microsoft.AspNetCore.Mvc.ModelBinding.ModelValidationState.Invalid)
+                {
+                    _logger.LogError($"Field {state.Key} is invalid. Errors: {string.Join(", ", state.Value.Errors.Select(e => e.ErrorMessage))}");
+                }
             }
 
             // Eðer ModelState.IsValid == false ise (yani validasyon hatasý varsa)
