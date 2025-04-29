@@ -1,6 +1,74 @@
-﻿@model ContactWebAppMvc.Models.ContactMessage;
+﻿@model ContactWebAppMvc.Models.ContactMessage // Model tanımı doğru varsayılıyor
 
 @{
-	ViewData["Title"] = "Mesaj Detayı";
-	Layout = "~/Views/Shared/_Layout.cshtml"; // Layout'u belirtiyoruz
+    ViewData["Title"] = "Mesaj Detayı";
+    Layout = "~/Views/Shared/_Layout.cshtml"; // Layout'u belirtiyoruz
 }
+
+<h1>@ViewData["Title"]</h1>
+<hr />
+
+<div>
+    <h4>Mesaj Bilgileri</h4>
+    <dl class="row">
+        @* Definition List ile daha düzenli görünüm *@
+        <dt class="col-sm-3">
+            @Html.DisplayNameFor(model => model.Id)
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.Id)
+        </dd>
+
+        <dt class="col-sm-3">
+            @Html.DisplayNameFor(model => model.FullName)
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.FullName)
+        </dd>
+
+        <dt class="col-sm-3">
+            @Html.DisplayNameFor(model => model.Email)
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+
+        <dt class="col-sm-3">
+            @Html.DisplayNameFor(model => model.PhoneNumber)
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.PhoneNumber)
+        </dd>
+
+        <dt class="col-sm-3">
+            @Html.DisplayNameFor(model => model.Department)
+        </dt>
+        <dd class="col-sm-9">
+            @* İlişkili departmanın adını gösteriyoruz *@
+            @Html.DisplayFor(model => model.Department.Name)
+        </dd>
+
+        <dt class="col-sm-3">
+            @Html.DisplayNameFor(model => model.SentAt)
+        </dt>
+        <dd class="col-sm-9">
+            @* Zamanı daha okunabilir formatta göster *@
+            @Model.SentAt.ToString("dd MMMM yyyy, HH:mm:ss")
+        </dd>
+
+        <dt class="col-sm-3">
+            @Html.DisplayNameFor(model => model.Message)
+        </dt>
+        <dd class="col-sm-9" style="white-space: pre-wrap;">
+            @* Mesajdaki satır atlamalarını korumak için *@
+            @Html.DisplayFor(model => model.Message)
+        </dd>
+    </dl>
+</div>
+<hr />
+<div>
+    @* Silme sayfasına yönlendirme linki *@
+    <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger">Sil</a> |
+    @* Listeye geri dönme linki *@
+    <a asp-action="Index" class="btn btn-secondary">Listeye Geri Dön</a>
+</div>

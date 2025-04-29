@@ -1,0 +1,50 @@
+﻿@model ContactWebAppMvc.Models.ContactMessage
+
+@{
+    ViewData["Title"] = "Mesaj Silme Onayı";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>@ViewData["Title"]</h1>
+<hr />
+<h3 class="text-danger">Bu mesajı silmek istediğinizden emin misiniz?</h3>
+<p class="text-danger">Bu işlem geri alınamaz.</p>
+<div>
+    <h4>Silinecek Mesaj</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-3">
+            @Html.DisplayNameFor(model => model.FullName)
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.FullName)
+        </dd>
+        <dt class="col-sm-3">
+            @Html.DisplayNameFor(model => model.SentAt)
+        </dt>
+        <dd class="col-sm-9">
+            @Model.SentAt.ToString("dd.MM.yyyy HH:mm")
+        </dd>
+        <dt class="col-sm-3">
+            @Html.DisplayNameFor(model => model.Department)
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.Department.Name)
+        </dd>
+        <dt class="col-sm-3">
+            Mesaj Başlangıcı
+        </dt>
+        <dd class="col-sm-9">
+            @(Model.Message.Length > 100 ? Model.Message.Substring(0, 100) + "..." : Model.Message)
+        </dd>
+    </dl>
+    <hr />
+    @* Asıl silme işlemini tetikleyecek olan POST formu *@
+    <form asp-action="Delete" method="post">
+        @* Formun POST yapacağı action Delete (DeleteConfirmed olacak) *@
+        @Html.AntiForgeryToken() @* CSRF koruması (Form Tag Helper bunu otomatik ekler ama explicit yazmak da iyidir)*@
+        <input type="hidden" asp-for="Id" /> @* Silinecek mesajın ID'sini gizli alanda gönder *@
+        <button type="submit" class="btn btn-danger">Evet, Sil</button> |
+        <a asp-action="Index" class="btn btn-secondary">İptal / Geri Dön</a>
+    </form>
+</div>
